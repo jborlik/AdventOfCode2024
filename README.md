@@ -7,6 +7,7 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 
 * Day 1:  Comparing two lists, part 1 sorted, part 2 via unique dicts.
 * Day 2:  Checking differences in an integer array.
+* Day 3:  Part 1 was a simple regex match with findall.  Part 2 had an "enabled/disabled" state in the string, so I ended up switching to a looped processing (still with regexes, but comparing which of the three keywords showed up sooner).
 
 
 ## See previous work at:
