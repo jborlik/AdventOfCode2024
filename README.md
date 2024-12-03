@@ -5,7 +5,8 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 
 ## Days
 
-* Day 1:  
+* Day 1:  Comparing two lists, part 1 sorted, part 2 via unique dicts.
+
 
 ## See previous work at:
 * https://github.com/jborlik/AdventOfCode2015

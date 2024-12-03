@@ -8,6 +8,8 @@ import time
 #import pprint
 #from dataclasses import dataclass, field
 
+DOPART1 = False
+DOPART2 = True
 
 with open('day17.txt') as datafile:
     alldata = [x.strip() for x in datafile.readlines()]
@@ -35,7 +37,7 @@ thedata = testdata
 #  Part 1
 # ------------------------------------------------------------------------------------
 
-if True:
+if DOPART1:
 
     START = time.perf_counter()
 
@@ -48,10 +50,11 @@ if True:
 #  Part 2
 # ------------------------------------------------------------------------------------
 
-START = time.perf_counter()
+if DOPART2:
+    START = time.perf_counter()
 
 
 
 
-END = time.perf_counter()
-print(f"Time taken for part 2: {END - START} seconds")
+    END = time.perf_counter()
+    print(f"Time taken for part 2: {END - START} seconds")
