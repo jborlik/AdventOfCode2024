@@ -10,6 +10,7 @@ import time
 
 DOPART1 = False
 DOPART2 = True
+DEBUG = True
 
 with open('day17.txt') as datafile:
     alldata = [x.strip() for x in datafile.readlines()]
@@ -31,7 +32,9 @@ nearby tickets:
 thedata = testdata
 #thedata = alldata
 
-
+directions = [(-1,-1),(0,-1),(1,-1),
+              (-1,0),        (1,0),
+              (-1,1), (0,1), (1,1)]
 
 # ------------------------------------------------------------------------------------
 #  Part 1
