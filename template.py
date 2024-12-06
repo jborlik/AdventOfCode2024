@@ -32,9 +32,16 @@ nearby tickets:
 thedata = testdata
 #thedata = alldata
 
-directions = [(-1,-1),(0,-1),(1,-1),
-              (-1,0),        (1,0),
-              (-1,1), (0,1), (1,1)]
+DIRS8 = [(-1,-1),(0,-1),(1,-1),
+                         (1,0),
+                         (1,1),
+                 (0,1),
+        (-1,1),
+        (-1,0),]  # rotatable clockwise, (idir + 1) % 8
+
+DIRS4 = [  (0,-1),(1,0),(0,1),(-1,0)]  # north, east, south, west, rotatable (idir+1)%4
+DIRS4NAME = ['n','e','s','w']
+
 
 # ------------------------------------------------------------------------------------
 #  Part 1

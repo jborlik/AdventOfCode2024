@@ -10,6 +10,7 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 * Day 3:  Part 1 was a simple regex match with findall.  Part 2 had an "enabled/disabled" state in the string, so I ended up switching to a looped processing (still with regexes, but comparing which of the three keywords showed up sooner).
 * Day 4:  Part 1 was a word search, so used the typical algorithm of "find the first letter, then check each direction".  Part 2 was not a word but rather letters in 2D shape.  There were few permutations, so I just looked for each of them.
 * Day 5:  Part 1 used itertools to loop over each page pair, to check against a set of rules.  Part 2 was the reverse, where one needed to use the rules to order the set... In this case, I used functools.cmp_to_key, which made it straightforward.
+* Day 6:  Classic AoC with walking/rotating direction of character in a maze. Part 1 was checking unique places visited in a walk.  Part 2 was trickier, in that one was trying to find alterations to the maze that resulted in a loop.  My "loop detection" algorithm was to check if the character already walked that space heading in the same direction.  And then I brute-forced it.  It took less than a minute to run (which is sort of long by AoC standards).
 
 
 ## See previous work at:
