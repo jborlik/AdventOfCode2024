@@ -8,7 +8,7 @@ import time
 #import pprint
 #from dataclasses import dataclass, field
 
-DOPART1 = False
+DOPART1 = True
 DOPART2 = True
 DEBUG = True
 
