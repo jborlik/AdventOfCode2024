@@ -14,6 +14,7 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 * Day 7:  Choose +/-/- ops to make a formula match a value.  Itertools.product() did the job.
 * Day 8:  Look at pairs of points on grid, and extend their distance.  More itertools, this time combinations().
 * Day 9:  "Defragging a disk".  Lots of list operations.  Part 1: Needed to go last to first, but basically brute force.  Part 2: Sort of the same, and barely got it in under 24 hours.  Not pretty.
+* Day 10:  Organize paths into a directed graph.  I did part 2 (counting unique paths) before part 1 (counting unique endpoints), because I had misread the part 1 criterion.
 
 
 ## See previous work at:
