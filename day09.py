@@ -9,9 +9,9 @@ import time
 #from dataclasses import dataclass, field
 from typing import Optional
 
-DOPART1 = True
+DOPART1 = False
 DOPART2 = True
-DEBUG = False
+DEBUG = True
 
 with open('day09.txt') as datafile:
     alldata = datafile.readline().strip()
@@ -20,7 +20,7 @@ testdata = "2333133121414131402".strip()   #
 
 
 thedata = testdata
-thedata = alldata
+#thedata = alldata
 
 # ------------------------------------------------------------------------------------
 #  Part 1
@@ -59,10 +59,10 @@ def fileIDAtIndex(disklist:list, index:int) -> Optional[int]:
     print(f"Huh?  requested ID={index} not in range")
     return None
 
-def findFirstBlankBlock(disklist:list) -> tuple[int, tuple]:
-    for chunkID, ablock in enumerate(disklist):
+def findFirstBlankBlock(disklist:list, startat=0) -> tuple[int, tuple]:
+    for chunkID, ablock in enumerate(disklist[startat:]):
         if ablock[1] is None:
-            return chunkID, ablock
+            return chunkID+startat, ablock
     return -1, None  # not found?
 
 
@@ -90,34 +90,44 @@ if DOPART1:
     if DEBUG:
         print(thedisk)
 
+    firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=0)
 
-    firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk)
-    while (firstBlankBlock is not None) and (firstBlankId != (len(thedisk)-1) ) :
-        # I have a blank block that could store stuff from the end
-        remainingspace = firstBlankBlock[0]
-        while remainingspace > 0:
+    idEndblock = len(thedisk)-1
+    while firstBlankId >= 0:
+        endblock = thedisk[idEndblock]
 
-            # so find the lastblock and take what you can from it
-            lastblock = thedisk[-1]
-            assert lastblock[1] is not None
-            if firstBlankBlock[0] > lastblock[0]:
-                # I have more space than the last block, so insert that whole set ahead of this one
-                remainingspace -= lastblock[0]
-                thedisk[firstBlankId] = (remainingspace, None)
-                thedisk.insert( firstBlankId, lastblock)
-                firstBlankId += 1
+        if idEndblock == firstBlankId:
+            # we are done
+            firstBlankId = -1
+
+        if endblock[1] is None:
+            thedisk.pop() # drop it
+            idEndblock -= 1
+        else:
+            # okay this has stuff, try to find a place to put it
+
+            if firstBlankBlock[0] > endblock[0]:
+                # blank block has end space to hold it all, so insert the whole set ahead of this one
+                firstBlankBlock = (firstBlankBlock[0] - endblock[0], None)
+                thedisk[firstBlankId] = firstBlankBlock
+                thedisk.insert( firstBlankId, endblock) 
+
+                firstBlankId += 1 # id's need to be incremented
+                idEndblock += 1
                 thedisk.pop()
-                while thedisk[-1][1] is None:
-                    thedisk.pop()
+                idEndblock -= 1   # move on to the next    
+                if firstBlankId >= len(thedisk):
+                    firstBlankId = -1  # nothing left            
             else:
-                # I would exhaust the remaining space
-                thedisk[firstBlankId] = (remainingspace, lastblock[1])
-                thedisk[-1] = (lastblock[0] - remainingspace, lastblock[1])
-                remainingspace = 0
+                # will exhaust all of the empty space in this blankblock
+                blockspace = firstBlankBlock[0]
+                thedisk[firstBlankId] = (blockspace, endblock[1])
+                thedisk[-1] = (endblock[0] - blockspace, endblock[1])
+                # find the next
+                firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=firstBlankId)
 
-        firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk)
         if DEBUG:
-            print(thedisk)
+            print(f"after examining {idEndblock}, {thedisk}")
 
     checksum = calcChecksum(thedisk)
     print(f"Part 1:  checksum = {checksum}")
@@ -135,6 +145,60 @@ if DOPART1:
 if DOPART2:
     START = time.perf_counter()
 
+    thedisk = mapToList(thedata)
+
+    if DEBUG:
+        print(thedisk)
+
+    firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=0)
+    # move from left to right examing blank blocks to fill
+    while firstBlankId >= 0:
+
+        # look from the back to the front at files that could fit here
+        for idfile in range(len(thedisk)-1, firstBlankId, -1):
+            endblock = thedisk[idfile]
+            if endblock[1] is not None:
+                # this is file
+                if firstBlankBlock[0] >= endblock[0]:
+                    # there is enough room to fit this
+                    remainingspace = firstBlankBlock[0] - endblock[0]
+
+                    newendblock = (endblock[0], None)
+                    thedisk[idfile] = newendblock
+                    
+                    if remainingspace > 0:
+                        # save space of the old
+                        firstBlankBlock = (remainingspace, None)
+                        thedisk[firstBlankId] = firstBlankBlock
+                        thedisk.insert(firstBlankId, endblock)
+                    else:
+                        # end of space
+                        newendblock = (endblock[0], None)
+                        thedisk[idfile] = newendblock
+                        firstBlankBlock = endblock
+                        thedisk[firstBlankId] = firstBlankBlock
+                    
+                    # got it
+                    break
+                    
+
+        if DEBUG:
+            print(f"after examining {firstBlankId}, {thedisk}")
+
+        # maybe we did it, maybe not!  in any case, move on
+        firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=firstBlankId)
+
+
+
+
+
+
+
+
+
+
+    checksum = calcChecksum(thedisk)
+    print(f"Part 2:  checksum = {checksum}")
 
 
 
