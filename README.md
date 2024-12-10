@@ -13,6 +13,7 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 * Day 6:  Classic AoC with walking/rotating direction of character in a maze. Part 1 was checking unique places visited in a walk.  Part 2 was trickier, in that one was trying to find alterations to the maze that resulted in a loop.  My "loop detection" algorithm was to check if the character already walked that space heading in the same direction.  And then I brute-forced it.  It took less than a minute to run (which is sort of long by AoC standards).
 * Day 7:  Choose +/-/- ops to make a formula match a value.  Itertools.product() did the job.
 * Day 8:  Look at pairs of points on grid, and extend their distance.  More itertools, this time combinations().
+* Day 9:  "Defragging a disk".  Lots of list operations.  Part 1: Needed to go last to first, but basically brute force.  Part 2: Sort of the same, and barely got it in under 24 hours.  Not pretty.
 
 
 ## See previous work at:

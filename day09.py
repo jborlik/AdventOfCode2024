@@ -11,7 +11,7 @@ from typing import Optional
 
 DOPART1 = False
 DOPART2 = True
-DEBUG = True
+DEBUG = False
 
 with open('day09.txt') as datafile:
     alldata = datafile.readline().strip()
@@ -20,7 +20,7 @@ testdata = "2333133121414131402".strip()   #
 
 
 thedata = testdata
-#thedata = alldata
+thedata = alldata
 
 # ------------------------------------------------------------------------------------
 #  Part 1
@@ -150,43 +150,48 @@ if DOPART2:
     if DEBUG:
         print(thedisk)
 
-    firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=0)
-    # move from left to right examing blank blocks to fill
-    while firstBlankId >= 0:
+    idEndblock = len(thedisk)-1
+    while idEndblock >= 0:
 
-        # look from the back to the front at files that could fit here
-        for idfile in range(len(thedisk)-1, firstBlankId, -1):
-            endblock = thedisk[idfile]
-            if endblock[1] is not None:
-                # this is file
-                if firstBlankBlock[0] >= endblock[0]:
-                    # there is enough room to fit this
-                    remainingspace = firstBlankBlock[0] - endblock[0]
+        endblock = thedisk[idEndblock]
+        if endblock[1] is None:
+            idEndblock -= 1
+            continue
 
-                    newendblock = (endblock[0], None)
-                    thedisk[idfile] = newendblock
-                    
-                    if remainingspace > 0:
-                        # save space of the old
-                        firstBlankBlock = (remainingspace, None)
-                        thedisk[firstBlankId] = firstBlankBlock
-                        thedisk.insert(firstBlankId, endblock)
-                    else:
-                        # end of space
-                        newendblock = (endblock[0], None)
-                        thedisk[idfile] = newendblock
-                        firstBlankBlock = endblock
-                        thedisk[firstBlankId] = firstBlankBlock
-                    
-                    # got it
-                    break
-                    
+        # so this is a file, let's check if it can fit in somewhere
+
+        firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=0)
+        while (firstBlankId >= 0) and (firstBlankId < idEndblock):
+            if firstBlankBlock[0] >= endblock[0]:
+                # space to fit here!
+                remainingspace = firstBlankBlock[0] - endblock[0]
+                newendblock = (endblock[0], None)
+                thedisk[idEndblock] = newendblock  # zero-out the file
+
+                if remainingspace > 0:
+                    # save space of the old
+                    firstBlankBlock = (remainingspace, None)
+                    thedisk[firstBlankId] = firstBlankBlock  # adjust the blank space
+                    thedisk.insert(firstBlankId, endblock) # move the file
+                    idEndblock += 1
+                    firstBlankId += 1
+                else:
+                    # end of free space in this block, just replace
+                    thedisk[firstBlankId] = endblock
+
+                break  # stop iteration for blank spaces
+            else:
+                # move on to next blank
+                firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=firstBlankId+1)
+        
+
+
 
         if DEBUG:
             print(f"after examining {firstBlankId}, {thedisk}")
 
         # maybe we did it, maybe not!  in any case, move on
-        firstBlankId, firstBlankBlock = findFirstBlankBlock(thedisk, startat=firstBlankId)
+        idEndblock -= 1
 
 
 
