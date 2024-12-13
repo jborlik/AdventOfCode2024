@@ -17,6 +17,7 @@ Code is tested with Python 3.11.4 (Anaconda distribution) on Win11. Developed wi
 * Day 10:  Organize paths into a directed graph.  I did part 2 (counting unique paths) before part 1 (counting unique endpoints), because I had misread the part 1 criterion.
 * Day 11:  Process a list with a set of rules to make a new list, then iterate that a bunch of times.  The naive approach worked fine for Part 1, but Part 2 wanted more iterations which resulted in exploding the execution time.  Got a little help from Reddit, to point me in the right direction:  The order of the numbers didn't matter at all, so one could use a dictionary of the count of instances for a number.
 * Day 12: TODO.  Got part 1 working, allocating tiles to areas, and determining the borders.  Part 2 is trickier... some borders are grouped.
+* Day 13:  Part 1, could be brute-force searched (nested loops).  Part 2 required more thought.  Used numpy linalg solver (two linear equations, two unknowns!), but the trick was checking if the results were integers or not. This required some tolerancing.  I think that there are integer algorithms for this, as it is a system of linear Diophantine equations.  But I lucked out with floating-point tolerancing.
 
 
 ## See previous work at:
